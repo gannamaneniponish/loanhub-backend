@@ -41,13 +41,15 @@ public class SecurityConfig {
             .sessionManagement(session ->
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                // Public endpoints
-                .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers("/h2-console/**").permitAll()
-                .requestMatchers("/api/health").permitAll()
-                // All other endpoints require authentication
-                .anyRequest().authenticated()
-            )
+            	    .requestMatchers("/api/auth/**").permitAll()
+            	    .requestMatchers("/h2-console/**").permitAll()
+            	    .requestMatchers("/api/health").permitAll()
+
+            	    // 🔥 ADD THIS LINE
+            	    .requestMatchers("/api/users/**").permitAll()
+
+            	    .anyRequest().authenticated()
+            	)
             .headers(headers -> headers.frameOptions(frame -> frame.disable())) // for H2 console
             .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
